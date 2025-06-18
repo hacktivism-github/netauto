@@ -1,5 +1,8 @@
 from netmiko import ConnectHandler
+from dotenv import load_dotenv
+import os
 import getpass
+# Script para adicionar um novo DHCP helper às VLANs de switches Cisco
 
 # Alternar entre modo interativo e credenciais fixas
 
@@ -42,8 +45,6 @@ def connect_and_update(switch):
         return
     
     # Configurar o dispositivo para conexão
-    # Se USE_INTERACTIVE for True, solicitará as credenciais ao utilizador
-    # Se USE_INTERACTIVE for False, usará as credenciais definidas acima
     device = {
         "device_type": "cisco_ios",
         "host": switch["host"],
@@ -72,7 +73,6 @@ def connect_and_update(switch):
     for section in interfaces[1:]:
         lines = section.strip().splitlines()
         vlan = lines[0].strip()
-        #if TEST_VLAN and vlan != TEST_VLAN:
         if TEST_VLAN and vlan != str(TEST_VLAN):
             continue
 

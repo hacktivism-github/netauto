@@ -1,17 +1,26 @@
 from netmiko import ConnectHandler
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
+from dotenv import dotenv_values
 import os
 import getpass
 
 # Carregar variáveis de ambiente do ficheiro .env
-load_dotenv()
+#load_dotenv()
+#load_dotenv(dotenv_path=".env")
+#dotenv_values(".env")
+env_vars = dotenv_values(".env")
 
 # Alternar entre modo interativo e ficheiro .env
 USE_INTERACTIVE = False
 
 # Ler credenciais do .env
-USERNAME = os.getenv("USERNAME")
-PASSWORD = os.getenv("PASSWORD")
+#USERNAME = os.getenv("USERNAME")
+#PASSWORD = os.getenv("PASSWORD")
+USERNAME = env_vars.get("USERNAME") if not USE_INTERACTIVE else None
+PASSWORD = env_vars.get("PASSWORD") if not USE_INTERACTIVE else None
+print(f"[DEBUG] USERNAME: {USERNAME}")
+print(f"[DEBUG] PASSWORD: {'*' * len(PASSWORD) if PASSWORD else 'MISSING'}")
+
 
 # Modo de simulação (não aplica mudanças)
 DRY_RUN = False
